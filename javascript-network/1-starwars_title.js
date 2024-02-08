@@ -1,17 +1,13 @@
-const requestStar = require('request');
+const request = require("request");
 
-const movieID = process.argv[2];
-const url4 = `https://swapi-api.alx-tools.com/api/films/${movieID}/`;
+const movieId = process.argv[2];
+const url = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
 
-
-requestStar.get(url4, (error, response, body) => {
-    if (error) {
-        console.error('error:', error)
-        return;
-    }
-    
-    const data = JSON.parse(body);
-    const dataMovieName = data.title;
-    console.log(dataMovieName);
-}
-);
+request(url, (error, response, body) => {
+  if (!error && response.statusCode === 200) {
+    const movieData = JSON.parse(body);
+    console.log(movieData.title);
+  } else {
+    console.log("Error:", error);
+  }
+});

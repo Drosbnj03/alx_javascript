@@ -1,18 +1,21 @@
-const requestStar = require('request');
+const request = require("request");
 
-const url5 = process.argv[2];
+const apiUrl = process.argv[2];
 const characterId = 18;
 
-requestStar.get(url5, (error, response, body) => {
-    if (error) {
-        console.error('error:', error)
-        return;
-    }
-    
-    const data = JSON.parse(body);
-    const moviesWithWedge = data.results.filter(film => film.characters.includes(`https://swapi-api.alx-tools.com/api/people/${characterId}/`));
-    
-    const noOfMovies = moviesWithWedge.length
-    console.log(noOfMovies);
-}
-);
+request(apiUrl, (error, response, body) => {
+  if (!error && response.statusCode === 200) {
+    const films = JSON.parse(body).results;
+    let count = 0;
+    films.forEach((film) => {
+      film.characters.forEach((characterUrl) => {
+        if (characterUrl.includes(`/people/${characterId}/`)) {
+          count++;
+        }
+      });
+    });
+    console.log(count);
+  } else {
+    console.log("Error:", error);
+  }
+});
