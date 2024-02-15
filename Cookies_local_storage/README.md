@@ -1,1 +1,0 @@
-This is the README file of the Cookies Local Storage file.
